@@ -1,15 +1,21 @@
 <template>
   <div>
     <p>{{ num }}</p>
+    <p>{{ double }}</p>
     <button type="button" @click.prevent="increment">+</button>
     <button type="button" @click.prevent="decrement">-</button>
 
     <p>{{ name }}</p>
+
+    <p>
+      <input type="text" v-model="phrase" />
+    </p>
+    <p>{{ reversedPhrase }}</p>
   </div>
 </template>
 
 <script>
-import { ref, reactive, toRefs } from "vue";
+import { ref, reactive, toRefs, watchEffect, watch, computed } from "vue";
 
 export default {
   name: "App",
@@ -19,6 +25,10 @@ export default {
     function increment() {
       num.value++;
     }
+
+    const double = computed(() => {
+      return num.value * 2;
+    });
 
     function decrement() {
       num.value--;
@@ -33,11 +43,25 @@ export default {
       user.name = "Josh";
     }, 3000);
 
+    const phrase = ref("");
+    const reversedPhrase = ref("");
+
+    // watch([phrase], ([newVal, oldVal]) => {
+    //   reversedPhrase.value = phrase.value.split("").reverse().join("");
+    // });
+
+    watchEffect(() => {
+      reversedPhrase.value = phrase.value.split("").reverse().join("");
+    });
+
     return {
       num,
       increment,
       decrement,
       ...toRefs(user),
+      phrase,
+      reversedPhrase,
+      double,
     };
   },
 };
