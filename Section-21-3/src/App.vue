@@ -11,15 +11,45 @@
       <input type="text" v-model="phrase" />
     </p>
     <p>{{ reversedPhrase }}</p>
+
+    <app-alert :user="user" />
+
+    <button type="button" ref="btn">Button</button>
   </div>
 </template>
 
 <script>
-import { ref, reactive, toRefs, watchEffect, watch, computed } from "vue";
+import {
+  ref,
+  reactive,
+  toRefs,
+  watchEffect,
+  watch,
+  computed,
+  onBeforeMount,
+  onMounted,
+} from "vue";
+import AppAlert from "./components/Alert.vue";
 
 export default {
   name: "App",
+  components: {
+    AppAlert,
+  },
   setup() {
+    const btn = ref(null);
+
+    onBeforeMount(() => {
+      console.log("Before Mount");
+    });
+    onMounted(() => {
+      console.log("Mounted");
+
+      btn.value.addEventListener("click", () => {
+        console.log("Clicked");
+      });
+    });
+
     let num = ref(0);
 
     function increment() {
@@ -62,6 +92,8 @@ export default {
       phrase,
       reversedPhrase,
       double,
+      user,
+      btn,
     };
   },
 };
