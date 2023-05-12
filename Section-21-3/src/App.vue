@@ -18,55 +18,36 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref, reactive, toRefs, onBeforeMount, onMounted } from "vue";
 import AppAlert from "./components/Alert.vue";
 import { useNumber } from "@/hooks/number";
 import { usePhrase } from "@/hooks/phrase";
 
-export default {
-  name: "App",
-  components: {
-    AppAlert,
-  },
-  setup() {
-    const btn = ref(null);
+const btn = ref(null);
 
-    onBeforeMount(() => {
-      console.log("Before Mount");
-    });
-    onMounted(() => {
-      console.log("Mounted");
+onBeforeMount(() => {
+  console.log("Before Mount");
+});
+onMounted(() => {
+  console.log("Mounted");
 
-      btn.value.addEventListener("click", () => {
-        console.log("Clicked");
-      });
-    });
+  btn.value.addEventListener("click", () => {
+    console.log("Clicked");
+  });
+});
 
-    const user = reactive({
-      name: "Joshua",
-      age: 29,
-    });
+const user = reactive({
+  name: "Joshua",
+  age: 29,
+});
 
-    setTimeout(() => {
-      user.name = "Josh";
-    }, 3000);
+setTimeout(() => {
+  user.name = "Josh";
+}, 3000);
 
-    const { num, increment, double, decrement } = useNumber();
-    const { phrase, reversedPhrase, num: phraseNum } = usePhrase();
+const { num, increment, double, decrement } = useNumber();
+const { phrase, reversedPhrase, num: phraseNum } = usePhrase();
 
-    return {
-      num,
-      increment,
-      decrement,
-      ...toRefs(user),
-      phrase,
-      reversedPhrase,
-      double,
-      user,
-      btn,
-      phraseNum,
-    };
-  },
-};
+const { name } = toRefs(user);
 </script>
